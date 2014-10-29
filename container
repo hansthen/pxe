@@ -23,6 +23,7 @@ OCF_RESKEY_ports_default=""
 OCF_RESKEY_volumes_default=""
 OCF_RESKEY_mem_default=""
 OCF_RESKEY_cpu_default=""
+OCF_RESKEY_options_default=""
 
 : ${OCF_RESKEY_binary=${OCF_RESKEY_binary_default}}
 : ${OCF_RESKEY_image=${OCF_RESKEY_image_default}}
@@ -34,6 +35,7 @@ OCF_RESKEY_cpu_default=""
 : ${OCF_RESKEY_volumes=${OCF_RESKEY_volumes_default}}
 : ${OCF_RESKEY_mem=${OCF_RESKEY_mem_default}}
 : ${OCF_RESKEY_cpu=${OCF_RESKEY_cpu_default}}
+: ${OCF_RESKEY_options=${OCF_RESKEY_cpu_options}}
 
 USAGE="Usage: $0 {start|stop|status|monitor|validate-all|meta-data}";
 #######################################################################
@@ -146,6 +148,15 @@ Docker containers as OCF resource in a high-availability setup.
     <content type="string" default="" />
   </parameter>
 
+  <parameter name="options" unique="0" required="0">
+    <longdesc lang="en">
+    Other options to pass to docker run
+    For example, "--net=host"
+    </longdesc>
+    <shortdesc lang="en">Options</shortdesc>
+    <content type="string" default="" />
+  </parameter>
+
 </parameters>
 
 <actions>
@@ -163,14 +174,14 @@ EOF
 #####
 # Start
 docker_c_start() {
-    state=$($OCF_RESKEY_binary inspect -format='{{.State.Running}}' $OCF_RESKEY_name)
+    state=$($OCF_RESKEY_binary inspect --format='{{.State.Running}}' $OCF_RESKEY_name)
     case $state in
         true)
-            ocf_log debug "START : Resource is already running"
+            ocf_log info "START : Resource is already running"
             ;;
         false)
             $OCF_RESKEY_binary start $OCF_RESKEY_name
-            ocf_log debug "START : Start existing docker container"
+            ocf_log info "START : Start existing docker container"
             ;;
         *)
             #Prepare options
@@ -180,9 +191,10 @@ docker_c_start() {
             [[ $OCF_RESKEY_volumes ]] && options="$options $OCF_RESKEY_volumes"
             [[ $OCF_RESKEY_mem ]] && options="$options -m $OCF_RESKEY_mem"
             [[ $OCF_RESKEY_cpu ]] && options="$options -v $OCF_RESKEY_cpu"
+            [[ $OCF_RESKEY_options ]] && options="$options $OCF_RESKEY_options"
             #Run
             $OCF_RESKEY_binary run -d $options $OCF_RESKEY_image $OCF_RESKEY_command
-            ocf_log debug "START : Execute run command for docker container : $OCF_RESKEY_binary run $options $OCF_RESKEY_image $OCF_RESKEY_command"
+            ocf_log info "START : Execute run command for docker container : $OCF_RESKEY_binary run $options $OCF_RESKEY_image $OCF_RESKEY_command"
     esac
     
     while ! docker_c_status ; do
