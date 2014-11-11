@@ -35,7 +35,7 @@ OCF_RESKEY_options_default=""
 : ${OCF_RESKEY_volumes=${OCF_RESKEY_volumes_default}}
 : ${OCF_RESKEY_mem=${OCF_RESKEY_mem_default}}
 : ${OCF_RESKEY_cpu=${OCF_RESKEY_cpu_default}}
-: ${OCF_RESKEY_options=${OCF_RESKEY_cpu_options}}
+: ${OCF_RESKEY_options=${OCF_RESKEY_options_default}}
 
 USAGE="Usage: $0 {start|stop|status|monitor|validate-all|meta-data}";
 #######################################################################
@@ -156,7 +156,6 @@ Docker containers as OCF resource in a high-availability setup.
     <shortdesc lang="en">Options</shortdesc>
     <content type="string" default="" />
   </parameter>
-
 </parameters>
 
 <actions>
@@ -198,10 +197,10 @@ docker_c_start() {
     esac
     
     while ! docker_c_status ; do
-        ocf_log debug "START : Docker container has not started yet, waiting"
+        ocf_log info "START : Docker container has not started yet, waiting"
         sleep 2
     done
-    ocf_log debug "START : Docker container has started."
+    ocf_log info "START : Docker container has started."
     return $OCF_SUCCESS
 }
 
