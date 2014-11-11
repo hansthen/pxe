@@ -1,0 +1,2 @@
+#node,power,mgt,cons,termserver,termport,conserver,serialport,serialspeed,serialflow,getmac,cmdmapping,comments,disable
+"compute","ipmi","ipmi",,,,,,,,,,,
