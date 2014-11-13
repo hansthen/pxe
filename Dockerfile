@@ -9,8 +9,11 @@ RUN rndc-confgen -a
 RUN echo "cache-clear"
 ADD supervisord.conf /usr/etc/supervisord.conf
 ADD dhcpd.conf /etc/dhcp/dhcpd.conf
+ADD xcat.patch /tmp/xcat.patch
+RUN cat /tmp/xcat.patch | patch -p0
 ADD tables /tmp/tables
 #RUN source /etc/profile.d/xcat.sh && /opt/xcat/sbin/xcatd && /opt/xcat/sbin/restorexCATdb -p /tmp/tables && mknb x86_64 && makedhcp -n && rm /var/run/xcatd.pid
+# Fixme: makedhcp and mknb need a functioning network configuration. So they cannot be set inside the image.
 RUN source /etc/profile.d/xcat.sh && /opt/xcat/sbin/xcatd && /opt/xcat/sbin/restorexCATdb -p /tmp/tables && mknb x86_64 && rm /var/run/xcatd.pid
 VOLUME ["/install", "/etc", "/opt/xcat", "/var/named", "/var/lib/dhcpd", "/var/www", "/tftpboot"]
 CMD ["/usr/bin/supervisord", "-c", "/usr/etc/supervisord.conf"]
