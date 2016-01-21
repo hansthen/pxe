@@ -1,11 +1,11 @@
 FROM centos:latest
 RUN yum -y swap -- remove systemd-container* -- install systemd systemd-libs
-RUN yum -y install epel-release
-RUN yum -y install wget python-pip rsyslog
+RUN yum -y -q install epel-release
+RUN yum -y -q install wget python-pip rsyslog
 RUN pip install supervisor
 RUN wget http://sourceforge.net/projects/xcat/files/yum/2.8/xcat-core/xCAT-core.repo -O /etc/yum.repos.d/xCAT-core.repo
 RUN wget http://sourceforge.net/projects/xcat/files/yum/xcat-dep/rh7/x86_64/xCAT-dep.repo -O /etc/yum.repos.d/xCAT-dep.repo
-RUN yum -y install xCAT 
+RUN yum -y -q install xCAT 
 RUN rndc-confgen -a
 RUN echo "cache-clear"
 ADD supervisord.conf /usr/etc/supervisord.conf
