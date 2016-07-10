@@ -11,7 +11,6 @@ ADD rootimg /
 ADD tables /tables
 RUN XCATROOT=/opt/xcat PATH=$XCATROOT/bin:$XCATROOT/sbin:$XCATROOT/share/xcat/tools:$PATH  XCATBYPASS=y restorexCATdb -p /tables
 RUN XCATROOT=/opt/xcat PATH=$XCATROOT/bin:$XCATROOT/sbin:$XCATROOT/share/xcat/tools:$PATH  XCATBYPASS=y makedhcp -n
-RUN rm -rf /tables
 VOLUME ["/install", "/etc", "/opt/xcat", "/var/named", "/var/lib/dhcpd", "/var/www", "/tftpboot"]
 CMD ["/usr/bin/supervisord", "-c", "/usr/etc/supervisord.conf"]
 ENTRYPOINT ["/docker-entrypoint.sh"]
