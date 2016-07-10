@@ -7,6 +7,7 @@ RUN wget https://xcat.org/files/xcat/repos/yum/xcat-dep/rh7/x86_64/xCAT-dep.repo
 RUN yum -y -q install xCAT 
 RUN rndc-confgen -a
 ADD supervisord.conf /usr/etc/supervisord.conf
+ADD rootimg /
 VOLUME ["/install", "/etc", "/opt/xcat", "/var/named", "/var/lib/dhcpd", "/var/www", "/tftpboot"]
 CMD ["/usr/bin/supervisord", "-c", "/usr/etc/supervisord.conf"]
 ENTRYPOINT ["/docker-entrypoint.sh"]

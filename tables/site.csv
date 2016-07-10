@@ -9,4 +9,4 @@
 "xcatiport","3002",,
 "xcatconfdir","/etc/xcat",,
 "timezone","Europe/Amsterdam",,
-"dhcpinterfaces","eno1",,
+"dhcpinterfaces","eth1",,
