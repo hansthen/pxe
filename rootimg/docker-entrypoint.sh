@@ -7,5 +7,7 @@ if [[ -d /tables ]]; then
     restorexCATdb -p /tables
     makedhcp -n
     mknb x86_64
+    
+    rm /tables
 fi
 exec "$@"
