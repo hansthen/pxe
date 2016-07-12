@@ -8,6 +8,8 @@ if [[ -d /tables ]]; then
     makedhcp -n
     mknb x86_64
     
-    rm /tables
+    rm -rf /tables
+    mknod /dev/loop2 -m0660 b 7 2
+    copycds -o -n centos7 /sync/*/*.iso
 fi
 exec "$@"
