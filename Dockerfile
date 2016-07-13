@@ -12,3 +12,7 @@ ADD tables /tables
 VOLUME ["/install", "/etc", "/opt/xcat", "/var/named", "/var/lib/dhcpd", "/var/www", "/tftpboot"]
 CMD ["/usr/bin/supervisord", "-c", "/usr/etc/supervisord.conf"]
 ENTRYPOINT ["/docker-entrypoint.sh"]
+RUN yum -y -q install git
+RUN git clone --depth=1 http://github.com/hansthen/salvage
+RUN cp -LrT salvage/controller/rootimg /
+ADD https://raw.githubusercontent.com/hansthen/asynchronous.bash/master/asynchronous.bash /var/lib/asynchronous.bash

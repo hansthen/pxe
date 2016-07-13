@@ -12,16 +12,17 @@ RUN mkdir -p /install/centos7/x86_64/;\
 RUN ls /install/centos7/x86_64
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-RUN git clone --depth=1 http://github.com/hansthen/salvage/ ;\
-    mkdir -p /install/post/otherpkgs/centos7/x86_64/Packages ;\
-    cat salvage/controller/rootimg/install/custom/install/centos/*pkg* \
+RUN git clone --depth=1 http://github.com/hansthen/salvage/ 
+RUN mkdir -p /install/post/otherpkgs/centos7/x86_64/Packages
+RUN cat salvage/controller/rootimg/install/custom/install/centos/*pkg* \
         salvage/controller/rootimg/install/custom/netboot/centos/*pkg* \
         | grep -v ^# | grep -v ^$ | grep -v ^@ | sort -u | \
         xargs repotrack -p /install/post/otherpkgs/centos7/x86_64/Packages ;\
-    cat salvage/controller/rootimg/install/custom/install/centos/*pkg* \
+RUN cat salvage/controller/rootimg/install/custom/install/centos/*pkg* \
         salvage/controller/rootimg/install/custom/netboot/centos/*pkg* \
         | grep ^@ | sort -u | sed 's,@ ,@,' | \
-        xargs yumdownloader --resolve --destdir /install/post/otherpkgs/centos7/x86_64/Packages; \
-    reposync -n updates /install/post/otherpkgs/centos7/x86_64/Packages; \
-    createrepo /install/post/otherpkgs/centos7/x86_64/
-VOLUME "/install/centos7", "/install/post"
+        xargs yumdownloader --resolve --destdir /install/post/otherpkgs/centos7/x86_64/Packages
+RUN reposync -n -r updates -p /install/post/otherpkgs/centos7/x86_64/Packages
+RUN createrepo /install/post/otherpkgs/centos7/x86_64/
+RUN cp -LrT salvage/controller/rootimg /
+VOLUME "/install/centos7" "/install/post"
