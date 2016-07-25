@@ -16,3 +16,7 @@ RUN yum -y -q install git
 RUN git clone --depth=1 http://github.com/hansthen/salvage
 RUN cp -LrT salvage/controller/rootimg /
 ADD https://raw.githubusercontent.com/hansthen/asynchronous.bash/master/asynchronous.bash /var/lib/asynchronous.bash
+RUN yum -y remove tftp-server-5.2-12.el7.x86_64
+RUN yum -y install https://repoforge.cu.be/redhat/el7/en/x86_64/dag/RPMS/atftp-server-0.7-6.el7.rf.x86_64.rpm
+RUN yum -y install xCAT
+
