@@ -9,7 +9,6 @@ RUN mkdir -p /install/centos7/x86_64/;\
     mkdir mount;\
     7z x CentOS-7-x86_64-*-1511.iso -o/install/centos7/x86_64;\
     createrepo /install/centos7/x86_64
-RUN ls /install/centos7/x86_64
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 RUN git clone --depth=1 http://github.com/hansthen/salvage/ 
@@ -17,12 +16,14 @@ RUN mkdir -p /install/post/otherpkgs/centos7/x86_64/Packages
 RUN cat salvage/controller/rootimg/install/custom/install/centos/*pkg* \
         salvage/controller/rootimg/install/custom/netboot/centos/*pkg* \
         | grep -v ^# | grep -v ^$ | grep -v ^@ | sort -u | \
-        xargs repotrack -p /install/post/otherpkgs/centos7/x86_64/Packages ;\
+        xargs repotrack -p /install/post/otherpkgs/centos7/x86_64/Packages
 RUN cat salvage/controller/rootimg/install/custom/install/centos/*pkg* \
         salvage/controller/rootimg/install/custom/netboot/centos/*pkg* \
         | grep ^@ | sort -u | sed 's,@ ,@,' | \
         xargs yumdownloader --resolve --destdir /install/post/otherpkgs/centos7/x86_64/Packages
 RUN reposync -n -r updates -p /install/post/otherpkgs/centos7/x86_64/Packages
 RUN createrepo /install/post/otherpkgs/centos7/x86_64/
+RUN yum -y install xCAT
+RUN ls -lR /install > /tmp/install_xCAT
 RUN cp -LrT salvage/controller/rootimg /
 VOLUME "/install/centos7" "/install/post"
