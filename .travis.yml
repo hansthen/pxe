@@ -10,5 +10,3 @@ install:
        --volumes-from=pxe-images --net=host --name=pxe pythea/pxe
 script:
   - docker ps | grep pxe
-deploy:
-  - docker push pythea/pxe
