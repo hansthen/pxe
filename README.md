@@ -5,6 +5,7 @@ PXE server inside a Docker container. It is used to quickly deploy
 HPC test clusters for HPC Swarm.
 
 The PXE server consists of a few pre-defined components:
+
 1. a DHCP server, which was reused from David Andersons code in ptftpd.
 2. a tftp server, for which I used the atftp server.
 
@@ -42,7 +43,8 @@ For a similar reason, I did not use J. Pettazoni's
 [pxe](https://github.com/jpetazzo/pxe), although I used his code to
 create the debian images.
 
-#Acknowledgements
-D. Anderson for ptftpd and pixiecore.
-M. Pettazoni for ptftpd.
-J. Pettazoni for pxe.
+## Acknowledgements
+David Anderson for ptftpd and pixiecore. 
+Maurice Pettazoni for ptftpd. 
+Joe Pettazoni for pxe. 
+Dag Wieers for packaging atftp for Centos.

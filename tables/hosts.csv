@@ -1,2 +1,0 @@
-#node,ip,hostnames,otherinterfaces,comments,disable
-"all","|\D+(\d+)$|10.141.((($1-1)/255)).(($1-1)%255+1)|","|\D+(\d+)$|node($1)|",,,
