@@ -6,7 +6,7 @@ install:
   - docker build -t pythea/pxe .
   - docker build -t pythea/pxe-images images
   - docker create --name pxe-images pythea/pxe-images 
-  - docker run -d --env=BOOTFILE=/debian/wheezy/amd64/install/pxelinux.0 \
-       --volumes-from=pxe-images --net=host --name=pxe pythea/pxe
+  - docker run -d --env=BOOTFILE=/debian/wheezy/amd64/install/pxelinux.0 --volumes-from=pxe-images --net=host --name=pxe pythea/pxe
+
 script:
   - docker ps | grep pxe
