@@ -12,7 +12,7 @@ if [[ -d /tables ]]; then
     rm -rf /tables
 fi
 after nc localhost 3001 \< /dev/null <<END
-    nodediscoverstart node001-node999 \
+    nodediscoverstart noderange=node001-node999 \
                       hostiprange=10.141.0.1-10.141.200.1 \
                       bmciprange=10.148.0.1-10.148.200.1 \
                       --skipbmcsetup &
