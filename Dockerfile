@@ -9,7 +9,6 @@ RUN yum -y -q update && yum -y -q install epel-release && \
 
 VOLUME ["/tftpboot"]
 ADD rootimg /
-ADD supervisord.conf /usr/etc
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/usr/etc/supervisord.conf"]
 
